@@ -3,122 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logan's Mother's Day Website</title>
+    <title>Mother's Day Memories</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9; /* Light gray background */
         }
+        
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+        }
+        
+        .title {
+            color: purple;
             text-align: center;
         }
-        .header {
-            background-color: #7e57c2; /* Dark purple header */
-            color: #ffffff; /* White text */
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            margin: 0;
-        }
-        .content {
+        
+        .memory-container {
             text-align: center;
+            margin-top: 20px;
         }
-        button {
-            background-color: #7e57c2; /* Dark purple button */
-            color: #ffffff; /* White text */
-            padding: 15px 30px;
-            font-size: 16px;
+        
+        .memory-button {
+            background-color: purple;
+            color: white;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-bottom: 20px;
         }
-        .memory-container {
+        
+        .memory-content {
             display: none;
+            margin-top: 20px;
         }
-        .memory-image {
-            max-width: 100%;
-            border-radius: 10px;
+        
+        .memory {
             margin-bottom: 20px;
         }
-        .memory-text {
-            font-size: 18px;
-            margin-bottom: 20px;
+        
+        .jar-container {
+            margin-top: 40px;
         }
-        .footer {
-            background-color: #7e57c2; /* Dark purple footer */
-            color: #ffffff; /* White text */
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
+        
+        .jar-image {
+            width: 100px;
+            cursor: pointer;
         }
-        .timer {
-            background-color: #7e57c2; /* Dark purple timer background */
-            color: #ffffff; /* White text */
-            padding: 10px;
-            border-radius: 5px;
+        
+        .random-memory {
+            margin-top: 20px;
+            font-style: italic;
+        }
+        
+        .spotify-song {
+            margin-top: 40px;
+            cursor: pointer;
+        }
+        
+        .album-art {
+            width: 100px;
+            height: 100px;
             margin-bottom: 10px;
+        }
+        
+        .song-title {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Remembering Special Moments</h1>
-        </div>
-        <div class="content">
-            <button id="memoriesButton">Memories</button>
-            <div class="memory-container" id="memoryContainer">
-                <img src="" class="memory-image" id="memoryImage" alt="Memory Image">
-                <p class="memory-text" id="memoryText"></p>
+        <h1 class="title">Mother's Day 2024</h1>
+        <div class="memory-container">
+            <button class="memory-button" onclick="showMemory()">Memory</button>
+            <div id="memory-timer" class="memory-timer"></div>
+            <div id="memory-content" class="memory-content">
+                <div class="memory">
+                    <audio controls>
+                        <source src="audio/memory_audio.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
             </div>
-            <div class="timer" id="timer" style="display: none;"></div>
-        </div>
-        <div class="footer">
-            <p id="footerText">Mother's Day 2024</p>
+            <div class="jar-container">
+                <img src="https://i.pinimg.com/originals/d3/fd/bc/d3fdbcc8c0a7cbbec2bac3dbe3e22969.gif" alt="Memory Jar" class="jar-image" onclick="showRandomMemory()">
+                <div id="random-memory" class="random-memory"></div>
+            </div>
+            <div class="spotify-song" onclick="openSpotify()">
+                <img src="spotify_album_art.jpg" alt="Album Art" class="album-art">
+                <div class="song-title">Mother, Kacey Musgraves</div>
+            </div>
         </div>
     </div>
-
     <script>
-        // Function to display a memory
-        function displayMemory(memory) {
-            document.getElementById("memoryImage").src = memory.image;
-            document.getElementById("memoryText").textContent = memory.text;
-            document.querySelector(".memory-container").style.display = "block";
-            document.getElementById("memoriesButton").disabled = true; // Disable button after clicking
-            document.getElementById("timer").style.display = "block"; // Display timer
-            var countDownDate = new Date().getTime() + 3600000; // 1 hour timer
-            var x = setInterval(function() {
-                var now = new Date().getTime();
-                var distance = countDownDate - now;
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById("timer").innerHTML = "Next memory in " + hours + "h " + minutes + "m " + seconds + "s";
-                if (distance < 0) {
-                    clearInterval(x);
-                    document.getElementById("memoriesButton").disabled = false; // Enable button when timer ends
-                    document.getElementById("timer").style.display = "none"; // Hide timer when timer ends
-                    document.getElementById("timer").innerHTML = ""; // Clear timer text
+        let memoryTimer;
+        let canShowMemory = true;
+
+        function showMemory() {
+            if (canShowMemory) {
+                document.getElementById("memory-content").style.display = "block";
+                startMemoryTimer();
+                canShowMemory = false;
+            }
+        }
+
+        function startMemoryTimer() {
+            let timeLeft = 3600; // 1 hour
+            memoryTimer = setInterval(() => {
+                if (timeLeft === 0) {
+                    clearInterval(memoryTimer);
+                    canShowMemory = true;
+                } else {
+                    document.getElementById("memory-timer").innerHTML = `Next memory available in ${Math.floor(timeLeft / 60)}:${timeLeft % 60 < 10 ? '0' : ''}${timeLeft % 60}`;
+                    timeLeft--;
                 }
             }, 1000);
         }
 
-        // Event listener for the memories button
-        document.getElementById("memoriesButton").addEventListener("click", function() {
-            var memory = {
-                text: "Remember when...you hugged me tight on Christmas Eve",
-                image: "https://images.pexels.com/photos/51953/mother-daughter-love-sunset-51953.jpeg"
-            };
-            displayMemory(memory);
-        });
+        function showRandomMemory() {
+            const memories = [
+                "Remember when... you hugged me tight on Christmas Eve.",
+                "Remember when... we danced together in the kitchen.",
+                "Remember when... we laughed until we cried."
+            ];
+            const randomIndex = Math.floor(Math.random() * memories.length);
+            document.getElementById("random-memory").innerText = memories[randomIndex];
+        }
+
+        function openSpotify() {
+            const songs = [
+                { title: "Mother, Kacey Musgraves", link: "https://open.spotify.com/track/4FjkZp6GD6baaxqUYTqIJo?si=fdaf249df87b477a0" },
+                { title: "Never Grow Up, Taylor Swift", link: "https://open.spotify.com/track/74WBGgUnpKrJXt6TETfR6Z?si=31e6dac84d2347a0" },
+                { title: "Hey Mama, Kanye West", link: "https://open.spotify.com/track/46OFHBw45fNi7QNjSetITR?si=1cc7a9aaf16f47b6" }
+            ];
+            const randomIndex = Math.floor(Math.random() * songs.length);
+            window.open(songs[randomIndex].link, "_blank");
+        }
     </script>
 </body>
 </html>
