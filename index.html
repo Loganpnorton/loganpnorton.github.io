@@ -59,6 +59,13 @@
             text-align: center;
             border-radius: 10px;
         }
+        .timer {
+            background-color: #7e57c2; /* Dark purple timer background */
+            color: #ffffff; /* White text */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -72,9 +79,10 @@
                 <img src="" class="memory-image" id="memoryImage" alt="Memory Image">
                 <p class="memory-text" id="memoryText"></p>
             </div>
+            <div class="timer" id="timer" style="display: none;"></div>
         </div>
         <div class="footer">
-            <p>Mother's Day 2024</p>
+            <p id="footerText">Mother's Day 2024</p>
         </div>
     </div>
 
@@ -84,6 +92,23 @@
             document.getElementById("memoryImage").src = memory.image;
             document.getElementById("memoryText").textContent = memory.text;
             document.querySelector(".memory-container").style.display = "block";
+            document.getElementById("memoriesButton").disabled = true; // Disable button after clicking
+            document.getElementById("timer").style.display = "block"; // Display timer
+            var countDownDate = new Date().getTime() + 3600000; // 1 hour timer
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("timer").innerHTML = "Next memory in " + hours + "h " + minutes + "m " + seconds + "s";
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("memoriesButton").disabled = false; // Enable button when timer ends
+                    document.getElementById("timer").style.display = "none"; // Hide timer when timer ends
+                    document.getElementById("timer").innerHTML = ""; // Clear timer text
+                }
+            }, 1000);
         }
 
         // Event listener for the memories button
