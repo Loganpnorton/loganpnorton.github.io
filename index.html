@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mother's Day Memories</title>
+    <title>Mother's Day 2024</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -156,7 +156,7 @@
         <h1 class="title">Mother's Day 2024</h1>
         <div class="memory-container">
             <div class="button-container">
-                <button class="memory-button" onclick="showRandomMemory()">Memory</button>
+                <button class="memory-button" onclick="showRandomMemory()">Remember when...</button>
             </div>
             <div id="memory-content" class="memory-content">
                 <!-- Memory content will be dynamically generated here -->
@@ -171,7 +171,7 @@
 
         function showRandomMemory() {
             if (cooldown > 0) {
-                document.getElementById("countdown").innerText = `Please wait for ${formatTime(cooldown)} before trying again.`;
+                document.getElementById("countdown").innerText = `You have to wait ${formatTime(cooldown)} before the next memory!`;
                 return;
             }
             let randomIndex;
@@ -208,7 +208,7 @@
         function updateCountdown() {
             const minutes = Math.floor(cooldown / 60);
             const seconds = cooldown % 60;
-            document.getElementById("countdown").innerText = `Next memory available in ${formatTime(cooldown)}`;
+            document.getElementById("countdown").innerText = `Next memory in ${formatTime(cooldown)}`;
         }
 
         function formatTime(seconds) {
@@ -246,19 +246,20 @@
                 </div>`;
             document.getElementById("memory-content").style.display = "block";
         }
-        
-
 
         function showMemoryJar() {
             const memories = [
                 "I remember talking to you about my first crush in second grade, you gave me the confidence to tell her how I felt.",
-                "I remember us the first day of us doing homeschool together, I am so proud to have a mom who wants the best for me"
+                "I remember the first day of us doing homeschool together, I'm so proud to have a mom who wants the best for me."
+                "I remember walking into Bethlehem Elementary and breaking down crying because I was so scared to leave my mother for the first time :("
+                "I remembeer going to the Heron Bay Pool in the summertime with my mom, she would always care for me to make sure I wasn't hungry, wasn't sunburnt, wasn't out of water, and made sure I was happy. <3"
+                "I remember being in the car with my mom listening to CD's she had for us, and that Taylor Swift album...1989, on repeat."
             ];
             const randomMemory = memories[Math.floor(Math.random() * memories.length)];
             document.getElementById("memory-content").innerHTML = `
                 <div class="jar-container">
                     <img src="https://i.pinimg.com/originals/d3/fd/bc/d3fdbcc8c0a7cbbec2bac3dbe3e22969.gif" alt="Memory Jar" class="jar-image" onclick="showRandomMemory()">
-                    <div class="jar-text">Memory Jar</div>
+                    <div class="jar-text">The Memory Jar</div>
                 </div>
                 <div class="random-memory">${randomMemory}</div>`;
             document.getElementById("memory-content").style.display = "block";
@@ -269,6 +270,7 @@
                 { title: "Mother", albumArt: "https://upload.wikimedia.org/wikipedia/en/6/65/Kacey_Musgraves_-_Golden_Hour.png", link: "https://open.spotify.com/track/4FjkZp6GD6baaxqUYTqIJo?si=fdaf249df87b477a" },
                 { title: "Never Grow Up", albumArt: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNv0BwlxWqBQ8MWo3Np9xD-Qlw2sLFSKUB9gSguX9UDw&s", link: "https://open.spotify.com/track/74WBGgUnpKrJXt6TETfR6Z?si=31e6dac84d2347a0" },
                 { title: "Hey Mama", albumArt: "https://upload.wikimedia.org/wikipedia/en/f/f4/Late_registration_cd_cover.jpg", link: "https://open.spotify.com/track/46OFHBw45fNi7QNjSetITR?si=1cc7a9aaf16f47b6" }
+                { title: "You & The 6", albumArt: "https://i.scdn.co/image/ab67616d0000b2732090f4f6cc406e6d3c306733", link: "https://open.spotify.com/track/2YaDRtIlQiZ5WDDB2YuEOC?si=afdcb2101b0c4e03" }
             ];
             const randomSong = songs[Math.floor(Math.random() * songs.length)];
             document.getElementById("memory-content").innerHTML = `
