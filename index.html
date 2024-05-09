@@ -61,10 +61,18 @@
             margin-top: 20px;
         }
         
-        .memory-image {
-            max-width: 100%;
+        .memory-image-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
             border-radius: 10px;
+            overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .memory-image {
+            width: 100%;
+            height: auto;
         }
         
         .jar-container {
@@ -209,10 +217,23 @@
             return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
         }
 
-        function showMemoryImage() {
-            document.getElementById("memory-content").innerHTML = `<img src="memory_image.jpg" alt="Memory Image" class="memory-image">`;
-            document.getElementById("memory-content").style.display = "block";
-        }
+    function showMemoryImage() {
+        const photoLinks = [
+            "https://photos.google.com/share/AF1QipNg3iVKbaaSyCVCVkT3cVeXCDW2KjEmh6FUFX7GTxEBz_n6pvzXdpJi85XmJgVpNg/photo/AF1QipMOe-JZmTu4Wu0JzALSN3GgDwNg6KONbMRTgE08?key=b3ItTGN6S0NtNjF4OHhhSHRkUkFGQ0EySHotQzJB",
+            "https://photos.google.com/share/AF1QipNg3iVKbaaSyCVCVkT3cVeXCDW2KjEmh6FUFX7GTxEBz_n6pvzXdpJi85XmJgVpNg/photo/AF1QipNiSU8rvkMMPHLl_IRPctFvACGFIW13aFuTRob8?key=b3ItTGN6S0NtNjF4OHhhSHRkUkFGQ0EySHotQzJB",
+            // Add the rest of the photo links here
+        ];
+    
+        // Choose a random photo link
+        const randomPhotoLink = photoLinks[Math.floor(Math.random() * photoLinks.length)];
+    
+        document.getElementById("memory-content").innerHTML = `
+            <div class="memory-image-container">
+                <img src="${randomPhotoLink}" alt="Memory Image" class="memory-image">
+            </div>`;
+        document.getElementById("memory-content").style.display = "block";
+    }
+
 
         function showMemoryJar() {
             const memories = [
