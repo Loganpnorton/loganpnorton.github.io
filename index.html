@@ -72,8 +72,15 @@
         }
         
         .jar-image {
-            width: 100px;
+            width: 200px;
             cursor: pointer;
+        }
+
+        .jar-text {
+            margin-top: 10px;
+            color: #6a0dad;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
         
         .random-memory {
@@ -113,6 +120,13 @@
             margin-top: 40px;
         }
         
+        .countdown-timer {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #6a0dad;
+            text-align: center;
+        }
+        
         @media screen and (max-width: 600px) {
             .container {
                 padding: 10px;
@@ -122,6 +136,9 @@
             }
             .memory-button {
                 font-size: 1rem;
+            }
+            .jar-image {
+                width: 150px;
             }
         }
     </style>
@@ -137,17 +154,24 @@
                 <!-- Memory content will be dynamically generated here -->
             </div>
         </div>
+        <div id="countdown" class="countdown-timer"></div>
     </div>
     <script>
-        // Keep track of the last selection
         let lastSelection = -1;
+        let cooldown = 5 * 60; // 5 minutes cooldown in seconds
+        let countdownInterval;
 
         function showRandomMemory() {
+            if (cooldown > 0) {
+                alert(`Please wait for ${formatTime(cooldown)} before trying again.`);
+                return;
+            }
             let randomIndex;
             do {
                 randomIndex = Math.floor(Math.random() * 4); // Random number between 0 and 3
-            } while (randomIndex === lastSelection); // Ensure a different selection each time
+            } while (randomIndex === lastSelection);
             lastSelection = randomIndex;
+            startCooldown();
             hideAll();
             if (randomIndex === 0) {
                 showMemoryImage();
@@ -160,32 +184,61 @@
             }
         }
 
+        function startCooldown() {
+            cooldown = 5 * 60;
+            updateCountdown();
+            countdownInterval = setInterval(function() {
+                cooldown--;
+                updateCountdown();
+                if (cooldown <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+        }
+
+        function updateCountdown() {
+            const minutes = Math.floor(cooldown / 60);
+            const seconds = cooldown % 60;
+            document.getElementById("countdown").innerText = `Next memory available in ${formatTime(cooldown)}`;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+
         function showMemoryImage() {
             document.getElementById("memory-content").innerHTML = `<img src="memory_image.jpg" alt="Memory Image" class="memory-image">`;
             document.getElementById("memory-content").style.display = "block";
         }
 
         function showMemoryJar() {
+            const memories = [
+                "I remember talking to you about my first crush in second grade, you gave me the confidence to tell her how I felt.",
+                "I remember us the first day of us doing homeschool together, I am so proud to have a mom who wants the best for me"
+            ];
+            const randomMemory = memories[Math.floor(Math.random() * memories.length)];
             document.getElementById("memory-content").innerHTML = `
                 <div class="jar-container">
                     <img src="https://i.pinimg.com/originals/d3/fd/bc/d3fdbcc8c0a7cbbec2bac3dbe3e22969.gif" alt="Memory Jar" class="jar-image" onclick="showRandomMemory()">
-                    <div id="random-memory" class="random-memory"></div>
-                </div>`;
+                    <div class="jar-text">Memory Jar</div>
+                </div>
+                <div class="random-memory">${randomMemory}</div>`;
             document.getElementById("memory-content").style.display = "block";
         }
 
         function showSpotifySong() {
             const songs = [
-                { title: "Mother, Kacey Musgraves", link: "https://open.spotify.com/track/4FjkZp6GD6baaxqUYTqIJo?si=fdaf249df87b477a0", image: "https://upload.wikimedia.org/wikipedia/en/6/65/Kacey_Musgraves_-_Golden_Hour.png" },
-                { title: "Never Grow Up, Taylor Swift", link: "https://open.spotify.com/track/74WBGgUnpKrJXt6TETfR6Z?si=31e6dac84d2347a0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNv0BwlxWqBQ8MWo3Np9xD-Qlw2sLFSKUB9gSguX9UDw&s" },
-                { title: "Hey Mama, Kanye West", link: "https://open.spotify.com/track/46OFHBw45fNi7QNjSetITR?si=1cc7a9aaf16f47b6", image: "https://upload.wikimedia.org/wikipedia/en/f/f4/Late_registration_cd_cover.jpg" }
+                { title: "Mother", albumArt: "https://upload.wikimedia.org/wikipedia/en/6/65/Kacey_Musgraves_-_Golden_Hour.png", link: "https://open.spotify.com/track/4FjkZp6GD6baaxqUYTqIJo?si=fdaf249df87b477a" },
+                { title: "Never Grow Up", albumArt: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNv0BwlxWqBQ8MWo3Np9xD-Qlw2sLFSKUB9gSguX9UDw&s", link: "https://open.spotify.com/track/74WBGgUnpKrJXt6TETfR6Z?si=31e6dac84d2347a0" },
+                { title: "Hey Mama", albumArt: "https://upload.wikimedia.org/wikipedia/en/f/f4/Late_registration_cd_cover.jpg", link: "https://open.spotify.com/track/46OFHBw45fNi7QNjSetITR?si=1cc7a9aaf16f47b6" }
             ];
-            const randomIndex = Math.floor(Math.random() * songs.length);
-            const song = songs[randomIndex];
+            const randomSong = songs[Math.floor(Math.random() * songs.length)];
             document.getElementById("memory-content").innerHTML = `
-                <div class="spotify-song" onclick="openSpotify('${song.link}')">
-                    <img src="${song.image}" alt="Album Art" class="album-art">
-                    <div class="song-title">${song.title}</div>
+                <div class="spotify-song" onclick="openSpotify('${randomSong.link}')">
+                    <img src="${randomSong.albumArt}" alt="Album Art" class="album-art">
+                    <div class="song-title">${randomSong.title}</div>
                 </div>`;
             document.getElementById("memory-content").style.display = "block";
         }
