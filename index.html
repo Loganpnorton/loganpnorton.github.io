@@ -163,7 +163,7 @@
 
         function showRandomMemory() {
             if (cooldown > 0) {
-                alert(`Please wait for ${formatTime(cooldown)} before trying again.`);
+                document.getElementById("countdown").innerText = `Please wait for ${formatTime(cooldown)} before trying again.`;
                 return;
             }
             let randomIndex;
@@ -192,6 +192,7 @@
                 updateCountdown();
                 if (cooldown <= 0) {
                     clearInterval(countdownInterval);
+                    document.getElementById("countdown").innerText = "";
                 }
             }, 1000);
         }
