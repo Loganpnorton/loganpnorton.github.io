@@ -27,6 +27,10 @@
             margin-top: 20px;
         }
         
+        .button-container {
+            margin-top: 20px;
+        }
+        
         .memory-button {
             background-color: purple;
             color: white;
@@ -41,7 +45,8 @@
             margin-top: 20px;
         }
         
-        .memory {
+        .memory-image {
+            max-width: 100%;
             margin-bottom: 20px;
         }
         
@@ -79,49 +84,57 @@
     <div class="container">
         <h1 class="title">Mother's Day 2024</h1>
         <div class="memory-container">
-            <button class="memory-button" onclick="showMemory()">Memory</button>
-            <div id="memory-timer" class="memory-timer"></div>
-            <div id="memory-content" class="memory-content">
-                <div class="memory">
-                    <audio controls>
-                        <source src="audio/memory_audio.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
+            <div class="button-container">
+                <button class="memory-button" onclick="showMemory()">Memory</button>
+                <button class="memory-button" onclick="showMemoryJar()">Memory Jar</button>
+                <button class="memory-button" onclick="showSpotifySong()">Spotify Song</button>
+                <button class="memory-button" onclick="showAudio()">Audio</button>
             </div>
-            <div class="jar-container">
+            <div id="memory-content" class="memory-content">
+                <img src="memory_image.jpg" alt="Memory Image" class="memory-image">
+            </div>
+            <div id="jar-container" class="jar-container">
                 <img src="https://i.pinimg.com/originals/d3/fd/bc/d3fdbcc8c0a7cbbec2bac3dbe3e22969.gif" alt="Memory Jar" class="jar-image" onclick="showRandomMemory()">
                 <div id="random-memory" class="random-memory"></div>
             </div>
-            <div class="spotify-song" onclick="openSpotify()">
+            <div id="spotify-song" class="spotify-song" onclick="openSpotify()">
                 <img src="spotify_album_art.jpg" alt="Album Art" class="album-art">
                 <div class="song-title">Mother, Kacey Musgraves</div>
+            </div>
+            <div id="audio-content" class="audio-content">
+                <audio controls>
+                    <source src="audio/memory_audio.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
             </div>
         </div>
     </div>
     <script>
-        let memoryTimer;
-        let canShowMemory = true;
-
         function showMemory() {
-            if (canShowMemory) {
-                document.getElementById("memory-content").style.display = "block";
-                startMemoryTimer();
-                canShowMemory = false;
-            }
+            hideAll();
+            document.getElementById("memory-content").style.display = "block";
         }
 
-        function startMemoryTimer() {
-            let timeLeft = 3600; // 1 hour
-            memoryTimer = setInterval(() => {
-                if (timeLeft === 0) {
-                    clearInterval(memoryTimer);
-                    canShowMemory = true;
-                } else {
-                    document.getElementById("memory-timer").innerHTML = `Next memory available in ${Math.floor(timeLeft / 60)}:${timeLeft % 60 < 10 ? '0' : ''}${timeLeft % 60}`;
-                    timeLeft--;
-                }
-            }, 1000);
+        function showMemoryJar() {
+            hideAll();
+            document.getElementById("jar-container").style.display = "block";
+        }
+
+        function showSpotifySong() {
+            hideAll();
+            document.getElementById("spotify-song").style.display = "block";
+        }
+
+        function showAudio() {
+            hideAll();
+            document.getElementById("audio-content").style.display = "block";
+        }
+
+        function hideAll() {
+            document.getElementById("memory-content").style.display = "none";
+            document.getElementById("jar-container").style.display = "none";
+            document.getElementById("spotify-song").style.display = "none";
+            document.getElementById("audio-content").style.display = "none";
         }
 
         function showRandomMemory() {
