@@ -6,29 +6,29 @@
     <title>Logan's Mother's Day Website</title>
     <style>
         body {
-            background-color: #f0e6f4; /* Light purple background */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f9f9f9; /* Light gray background */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
         }
         .header {
             background-color: #7e57c2; /* Dark purple header */
             color: #ffffff; /* White text */
-            padding: 10px;
-            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
-        .footer {
-            background-color: #7e57c2; /* Dark purple footer */
-            color: #ffffff; /* White text */
-            padding: 10px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+        .header h1 {
+            margin: 0;
         }
         .content {
             text-align: center;
-            padding-top: 100px;
         }
         button {
             background-color: #7e57c2; /* Dark purple button */
@@ -38,35 +38,44 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-bottom: 20px;
         }
-        img {
-            max-width: 100%; /* Make images responsive */
-            height: auto;
+        .memory-container {
+            display: none;
         }
-        @media only screen and (min-width: 768px) {
-            .content {
-                padding-top: 50px; /* Adjust padding for larger screens */
-            }
-            img {
-                max-width: 80%; /* Adjust image size for larger screens */
-            }
+        .memory-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .memory-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .footer {
+            background-color: #7e57c2; /* Dark purple footer */
+            color: #ffffff; /* White text */
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Created with Love by Logan for his mother :)</h1>
-    </div>
-    <div class="content">
-        <button id="memoriesButton">Memories</button>
-        <div id="memoryContainer" style="display: none;">
-            <img src="data:image/jpeg;base64,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" id="memoryImage" alt="Memory Image">
-            <p id="memoryText">First Memory Description</p>
-            <p id="nextMemoryTimer">The Next Memory is just around the corner: <span id="timer"></span></p>
+    <div class="container">
+        <div class="header">
+            <h1>Remembering Special Moments</h1>
         </div>
-    </div>
-    <div class="footer">
-        <p>Mother's Day 2024</p>
+        <div class="content">
+            <button id="memoriesButton">Memories</button>
+            <div class="memory-container" id="memoryContainer">
+                <img src="" class="memory-image" id="memoryImage" alt="Memory Image">
+                <p class="memory-text" id="memoryText"></p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Mother's Day 2024</p>
+        </div>
     </div>
 
     <script>
@@ -74,33 +83,17 @@
         function displayMemory(memory) {
             document.getElementById("memoryImage").src = memory.image;
             document.getElementById("memoryText").textContent = memory.text;
-            document.getElementById("memoryContainer").style.display = "block";
+            document.querySelector(".memory-container").style.display = "block";
         }
 
-        // Function to start the timer
-        function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
-                    timer = duration;
-                }
-            }, 1000);
-        }
-
-        // Display the first memory
-        var firstMemory = {
-            text: "First Memory Description",
-            image: "https://images.pexels.com/photos/51953/mother-daughter-love-sunset-51953.jpeg"
-        };
-        displayMemory(firstMemory);
+        // Event listener for the memories button
+        document.getElementById("memoriesButton").addEventListener("click", function() {
+            var memory = {
+                text: "Remember when...you hugged me tight on Christmas Eve",
+                image: "https://images.pexels.com/photos/51953/mother-daughter-love-sunset-51953.jpeg"
+            };
+            displayMemory(memory);
+        });
     </script>
 </body>
 </html>
