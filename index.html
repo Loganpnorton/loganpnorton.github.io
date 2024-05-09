@@ -217,22 +217,36 @@
             return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
         }
 
-    function showMemoryImage() {
-        const photoLinks = [
-            "https://photos.google.com/share/AF1QipNg3iVKbaaSyCVCVkT3cVeXCDW2KjEmh6FUFX7GTxEBz_n6pvzXdpJi85XmJgVpNg/photo/AF1QipMOe-JZmTu4Wu0JzALSN3GgDwNg6KONbMRTgE08?key=b3ItTGN6S0NtNjF4OHhhSHRkUkFGQ0EySHotQzJB",
-            "https://photos.google.com/share/AF1QipNg3iVKbaaSyCVCVkT3cVeXCDW2KjEmh6FUFX7GTxEBz_n6pvzXdpJi85XmJgVpNg/photo/AF1QipNiSU8rvkMMPHLl_IRPctFvACGFIW13aFuTRob8?key=b3ItTGN6S0NtNjF4OHhhSHRkUkFGQ0EySHotQzJB",
-            // Add the rest of the photo links here
-        ];
-    
-        // Choose a random photo link
-        const randomPhotoLink = photoLinks[Math.floor(Math.random() * photoLinks.length)];
-    
-        document.getElementById("memory-content").innerHTML = `
-            <div class="memory-image-container">
-                <img src="${randomPhotoLink}" alt="Memory Image" class="memory-image">
-            </div>`;
-        document.getElementById("memory-content").style.display = "block";
-    }
+        function showMemoryImage() {
+            const photoLinks = [
+                "https://i.imgur.com/4gooKK7.png",
+                "https://i.imgur.com/NSdvuEF.png",
+                "https://i.imgur.com/xvm9d94.png",
+                "https://i.imgur.com/VKXmgDc.png",
+                "https://i.imgur.com/wMIZqig.png",
+                "https://i.imgur.com/JTqjWeg.png",
+                "https://i.imgur.com/vdoZo9r.png",
+                "https://i.imgur.com/HvramHs.png",
+                "https://i.imgur.com/G5GcCZG.png",
+                "https://i.imgur.com/PZ6FO7a.png",
+                "https://i.imgur.com/GMm64AQ.png",
+                "https://i.imgur.com/pmKV859.png",
+                "https://i.imgur.com/L09Y1UH.png",
+                "https://i.imgur.com/XGY8E1i.png",
+                "https://i.imgur.com/5UjqjSF.png",
+                "https://i.imgur.com/PUTjuto.png"
+            ];
+        
+            // Choose a random photo link
+            const randomPhotoLink = photoLinks[Math.floor(Math.random() * photoLinks.length)];
+        
+            document.getElementById("memory-content").innerHTML = `
+                <div class="memory-image-container">
+                    <img src="${randomPhotoLink}" alt="Memory Image" class="memory-image">
+                </div>`;
+            document.getElementById("memory-content").style.display = "block";
+        }
+        
 
 
         function showMemoryJar() {
