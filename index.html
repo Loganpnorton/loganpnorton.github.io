@@ -29,6 +29,9 @@
         
         .button-container {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         .memory-button {
@@ -38,6 +41,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 5px;
         }
         
         .memory-content {
@@ -85,76 +89,75 @@
         <h1 class="title">Mother's Day 2024</h1>
         <div class="memory-container">
             <div class="button-container">
-                <button class="memory-button" onclick="showMemory()">Memory</button>
-                <button class="memory-button" onclick="showMemoryJar()">Memory Jar</button>
-                <button class="memory-button" onclick="showSpotifySong()">Spotify Song</button>
-                <button class="memory-button" onclick="showAudio()">Audio</button>
+                <button class="memory-button" onclick="showRandomMemory()">Memory</button>
             </div>
             <div id="memory-content" class="memory-content">
-                <img src="memory_image.jpg" alt="Memory Image" class="memory-image">
-            </div>
-            <div id="jar-container" class="jar-container">
-                <img src="https://i.pinimg.com/originals/d3/fd/bc/d3fdbcc8c0a7cbbec2bac3dbe3e22969.gif" alt="Memory Jar" class="jar-image" onclick="showRandomMemory()">
-                <div id="random-memory" class="random-memory"></div>
-            </div>
-            <div id="spotify-song" class="spotify-song" onclick="openSpotify()">
-                <img src="spotify_album_art.jpg" alt="Album Art" class="album-art">
-                <div class="song-title">Mother, Kacey Musgraves</div>
-            </div>
-            <div id="audio-content" class="audio-content">
-                <audio controls>
-                    <source src="audio/memory_audio.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+                <!-- Memory content will be dynamically generated here -->
             </div>
         </div>
     </div>
     <script>
-        function showMemory() {
+        function showRandomMemory() {
+            const randomIndex = Math.floor(Math.random() * 4); // Random number between 0 and 3
             hideAll();
+            if (randomIndex === 0) {
+                showMemoryImage();
+            } else if (randomIndex === 1) {
+                showMemoryJar();
+            } else if (randomIndex === 2) {
+                showSpotifySong();
+            } else {
+                showAudio();
+            }
+        }
+
+        function showMemoryImage() {
+            document.getElementById("memory-content").innerHTML = `<img src="memory_image.jpg" alt="Memory Image" class="memory-image">`;
             document.getElementById("memory-content").style.display = "block";
         }
 
         function showMemoryJar() {
-            hideAll();
-            document.getElementById("jar-container").style.display = "block";
+            document.getElementById("memory-content").innerHTML = `
+                <div class="jar-container">
+                    <img src="https://i.pinimg.com/originals/d3/fd/bc/d3fdbcc8c0a7cbbec2bac3dbe3e22969.gif" alt="Memory Jar" class="jar-image" onclick="showRandomMemory()">
+                    <div id="random-memory" class="random-memory"></div>
+                </div>`;
+            document.getElementById("memory-content").style.display = "block";
         }
 
         function showSpotifySong() {
-            hideAll();
-            document.getElementById("spotify-song").style.display = "block";
+            const songs = [
+                { title: "Mother, Kacey Musgraves", link: "https://open.spotify.com/track/4FjkZp6GD6baaxqUYTqIJo?si=fdaf249df87b477a0", image: "https://upload.wikimedia.org/wikipedia/en/6/65/Kacey_Musgraves_-_Golden_Hour.png" },
+                { title: "Never Grow Up, Taylor Swift", link: "https://open.spotify.com/track/74WBGgUnpKrJXt6TETfR6Z?si=31e6dac84d2347a0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNv0BwlxWqBQ8MWo3Np9xD-Qlw2sLFSKUB9gSguX9UDw&s" },
+                { title: "Hey Mama, Kanye West", link: "https://open.spotify.com/track/46OFHBw45fNi7QNjSetITR?si=1cc7a9aaf16f47b6", image: "https://upload.wikimedia.org/wikipedia/en/f/f4/Late_registration_cd_cover.jpg" }
+            ];
+            const randomIndex = Math.floor(Math.random() * songs.length);
+            const song = songs[randomIndex];
+            document.getElementById("memory-content").innerHTML = `
+                <div class="spotify-song" onclick="openSpotify('${song.link}')">
+                    <img src="${song.image}" alt="Album Art" class="album-art">
+                    <div class="song-title">${song.title}</div>
+                </div>`;
+            document.getElementById("memory-content").style.display = "block";
         }
 
         function showAudio() {
-            hideAll();
-            document.getElementById("audio-content").style.display = "block";
+            document.getElementById("memory-content").innerHTML = `
+                <div class="audio-content">
+                    <audio controls>
+                        <source src="audio/memory_audio.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>`;
+            document.getElementById("memory-content").style.display = "block";
         }
 
         function hideAll() {
             document.getElementById("memory-content").style.display = "none";
-            document.getElementById("jar-container").style.display = "none";
-            document.getElementById("spotify-song").style.display = "none";
-            document.getElementById("audio-content").style.display = "none";
         }
 
-        function showRandomMemory() {
-            const memories = [
-                "Remember when... you hugged me tight on Christmas Eve.",
-                "Remember when... we danced together in the kitchen.",
-                "Remember when... we laughed until we cried."
-            ];
-            const randomIndex = Math.floor(Math.random() * memories.length);
-            document.getElementById("random-memory").innerText = memories[randomIndex];
-        }
-
-        function openSpotify() {
-            const songs = [
-                { title: "Mother, Kacey Musgraves", link: "https://open.spotify.com/track/4FjkZp6GD6baaxqUYTqIJo?si=fdaf249df87b477a0" },
-                { title: "Never Grow Up, Taylor Swift", link: "https://open.spotify.com/track/74WBGgUnpKrJXt6TETfR6Z?si=31e6dac84d2347a0" },
-                { title: "Hey Mama, Kanye West", link: "https://open.spotify.com/track/46OFHBw45fNi7QNjSetITR?si=1cc7a9aaf16f47b6" }
-            ];
-            const randomIndex = Math.floor(Math.random() * songs.length);
-            window.open(songs[randomIndex].link, "_blank");
+        function openSpotify(link) {
+            window.open(link, "_blank");
         }
     </script>
 </body>
