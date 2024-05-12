@@ -134,20 +134,17 @@
             color: #6a0dad;
             text-align: center;
         }
-        
-        @media screen and (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            .title {
-                font-size: 1.5rem;
-            }
-            .memory-button {
-                font-size: 1rem;
-            }
-            .jar-image {
-                width: 150px;
-            }
+
+        /* Fixed Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #6a0dad;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -156,13 +153,18 @@
         <h1 class="title">Mother's Day 2024</h1>
         <div class="memory-container">
             <div class="button-container">
-                <button class="memory-button" onclick="showRandomMemory()">I can remember...</button>
+                <button class="memory-button" onclick="showRandomMemory()">Remember when...</button>
             </div>
             <div id="memory-content" class="memory-content">
                 <!-- Memory content will be dynamically generated here -->
             </div>
         </div>
         <div id="countdown" class="countdown-timer"></div>
+    </div>
+
+    <!-- Fixed Footer -->
+    <div class="footer">
+        From Logan to his Mother, 18 years of &lt;3
     </div>
     <script>
         let lastSelection = -1;
